@@ -6,7 +6,7 @@
 
 #define MAX 5
 
-// Fila estática e sequencial
+// Fila circular estática e sequencial
 typedef struct
 {
 
@@ -97,16 +97,16 @@ void inserir (Fila *f, char x, int *funciona)
     {
         *funciona = 1;
         (f->n_elementos)++;
-        f->elementos[f->final] = x;
+        f->elementos[f->final] = x; // inserção na última posição
 
-        // rotacionando fila
+        // rotacionando fila, o fim se torna o começo
         if (f->final == (MAX-1))
             f->final = 0;
 
         else
             (f->final)++;
-
     }
+
 }
 
 
@@ -121,9 +121,9 @@ void remover (Fila *f, char *x, int *funciona)
     {
         *funciona = 1;
         (f->n_elementos)--;
-        *x = f->elementos[f->final];
+        *x = f->elementos[f->inicio]; // remoção na primeira posição
 
-        // rotacionando fila
+        // rotacionando fila, o fim se torna o começo
         if (f->final == (MAX-1))
             f->final = 0;
 
@@ -149,7 +149,12 @@ int main (void)
     }
 
     inserir (f, 'a', &funciona);
-    printf("RESULTADO: %d\n", funciona);
+
+    if (funciona == 1)
+        printf("TAD FILA IMPLEMENTADO COM SUCESSO!\n");
+
+    else 
+        printf("TAD FILA NÃO PÔDE SER IMPLEMENTADO!\n");
 
     return 0;
 
