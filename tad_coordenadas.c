@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-
+#include <math.h>
 typedef struct
 {
     
@@ -9,6 +9,16 @@ typedef struct
     
 }
 Ponto; 
+
+
+// Funções
+
+Ponto *criar (float x1, float y1);
+void destruir (Ponto *p);
+Ponto atribuir (Ponto *p, float x1, float y1);
+void acessar (Ponto *p, float *x, float *y);
+float distancia (Ponto *a, Ponto *b);
+
 
 Ponto *criar (float x1, float y1)
 {
@@ -27,74 +37,85 @@ Ponto *criar (float x1, float y1)
     
 }
 
+
 void destruir (Ponto *p)
 {
-    free (p);
-}
 
-float acessar_x (Ponto *p)
-{
-    return p->x;
-}
-
-float acessar_y (Ponto *p)
-{
-    return p->y;
-}
-
-Ponto *atribuir (float x1, float y1)
-{
-    
-    Ponto *p;
-    
     if (p != NULL)
-    {
-        p->x = x1;
-        p->y = y1;
-    }
-    
-   return p;
-    
+        free (p);
+
 }
 
-int main(void)
+
+Ponto atribuir (Ponto *p, float x1, float y1)
+{
+
+    // atribuindo novos valores de coordenadas para os eixos X e Y
+    p->x = x1;
+    p->y = y1;
+
+}
+
+
+void acessar (Ponto *p, float *x, float *y)
+{
+
+    // acessando campo da coordenada de cada eixo
+    *x = p->x;
+    *y = p->y;
+
+}
+
+
+float distancia (Ponto *a, Ponto *b)
 {
     
-    Ponto *p;
-    float x, y;
-    
-    printf("Digite as coordenadas x e y: ");
-    scanf("%f %f", &x, &y);
+    float d; 
 
-    p = criar (x, y);
+    /*   CÁLCULO DA DISTÂNCIA ENTRE DOIS PONTOS:
+
+        - calcular a diferença entre os respectivos eixos dos dois pontos;
+        - elevar o resultado do cálculo de cada ponto ao quadrado;
+        - calcular a raíz da soma desses quadrados.   */
     
-    if (p == NULL)
-        printf("ERRO: Coordenadas Inválidas\n\n");
+    d = (float) sqrt(pow(a->x - b->x, 2) + pow(a->y - b->y , 2));
     
-    else
-    {
-        printf("O valor do eixo x eh: %.2f\n", acessar_x(p));
-        printf("O valor do eixo y eh: %.2f\n", acessar_y(p));
-    }
+    return d;
+
+}
+
+
+int main (void)
+{
     
-    printf("Digite as novas coordenadas x e y: ");
-    scanf("%f %f", &x, &y);
-    
-    p = atribuir (x, y);
-    
-    if (p == NULL)
-        printf("ERRO: Coordenadas Inválidas\n\n");
-    
-    else
-    {
-        printf("O valor do eixo x eh: %.2f\n", acessar_x(p));
-        printf("O valor do eixo y eh: %.2f\n", acessar_y(p));
-    }
-    
-    printf("A distancia entre os pontos x e y eh: ");
-    
-    destruir(p);
-    
+    Ponto *a;
+    Ponto *b;
+    float x, y;
+
+    a = criar(3.0, 5.0);
+    b = criar(6.0, 1.0);
+
+    acessar(a, &x, &y);
+    printf("\nAs coordenadas (x,y) de A são: (%.2f, %.2f)", x, y);
+
+    acessar(b, &x, &y);
+    printf("\nAs coordenadas (x,y) de B são: (%.2f, %.2f)\n", x, y);
+
+    printf("\nA distancia entre A e B é: %.2f\n", distancia(a, b));
+
+    atribuir(a, 5.0, 5.0);
+    acessar(a, &x, &y);
+    printf("\nAs NOVAS coordenadas (x,y) de A são: (%.2f, %.2f)", x, y);
+
+    atribuir(b, 3.0, 7.0);
+    acessar(b, &x, &y);
+    printf("\nAs NOVAS coordenadas (x,y) de B são: (%.2f, %.2f)\n", x, y);
+
+    printf("\nA distancia entre A e B é: %.2f\n\n", distancia(a, b));
+
+    destruir(a);
+    destruir(b);
+
     return 0;
     
 }
