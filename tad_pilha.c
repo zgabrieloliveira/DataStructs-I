@@ -37,7 +37,7 @@ Pilha *criar (int *funciona)
     if (p == NULL)
         *funciona = 0;
 
-    // memória alocada com sucesso, pilha inicia em 0 
+    // memória alocada, pilha inicia em 0 
     else
     {
         p-> topo = -1;
@@ -61,7 +61,7 @@ void destruir (Pilha *p)
 int vazia (Pilha *p)
 {
 
-    // se a posição do topo for 0, a pilha está vazia
+    // A pilha está vazia
     if(p->topo == -1)
         return 1; 
 
@@ -93,10 +93,8 @@ int empilhar (Pilha *p, char x, int *funciona)
     
     else
     {
-        (p->topo)++;
-        
-        p->elementos[p->topo] = x;
-        
+        (p->topo)++; // incrementando pilha
+        p->elementos[p->topo] = x; // empilhando no topo
         *funciona = 1;
     }
 
@@ -113,8 +111,8 @@ char desempilhar (Pilha *p, char *x, int *funciona)
 
     else
     {  
-        *x = p->elementos[p->topo];
-        p->topo -= 1;
+        *x = p->elementos[p->topo]; // desempilhando elemento no topo
+        (p->topo)--; // decrementando pilha
         *funciona = 1;
     }
     
@@ -128,11 +126,11 @@ int main (void)
     int funciona;
     char x;
     
-    p = criar(funciona);
+    p = criar(&funciona);
     
     if (funciona == 0)
     {
-        printf("Não foi possível criar a pilha!\n\n");
+        printf("NÃO FOI POSSÍVEL CRIAR A PILHA!\n\n");
         exit(1);
     }
     
@@ -150,10 +148,10 @@ int main (void)
     empilhar (p, 'k', &funciona);
     
     if (cheia(p) == 1) 
-        printf("A pilha está cheia!\n\n");
+        printf("A PILHA ESTÁ CHEIA, NÃO É POSSÍVEL EMPILHAR\n\n");
     
     desempilhar (p, &x, &funciona);
-    printf("%c\n", x);
+    printf("   %c\n", x);
 
     destruir (p);
 
